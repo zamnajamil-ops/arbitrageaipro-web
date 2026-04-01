@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Scan ASINs — ArbitrageAI Pro{% endblock %}
+{% block extra_css %}
+<style>
+.scan-page{max-width:700px;margin:3rem auto;padding:0 1.5rem;}
+.scan-title{font-size:24px;font-weight:800;color:#111;margin-bottom:8px;}
+.scan-sub{font-size:14px;color:#777;margin-bottom:2rem;}
+.scan-card{background:#fff;border:1.5px solid #f0f0f0;border-radius:16px;padding:2rem;}
+.form-label{display:block;font-size:13px;font-weight:700;color:#444;margin-bottom:8px;}
+.form-hint{font-size:12px;color:#999;margin-bottom:8px;}
+textarea{width:100%;padding:14px;border:1.5px solid #e5e5e5;border-radius:10px;font-size:14px;font-family:monospace;color:#111;resize:vertical;outline:none;min-height:120px;}
+textarea:focus{border-color:#FF9900;}
+.btn-scan{width:100%;padding:14px;background:#FF9900;color:#111;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-top:1rem;}
+.btn-scan:hover{background:#e68a00;}
+.results{margin-top:2rem;}
+.result-item{background:#f8f8f8;border-radius:10px;padding:1rem;margin-bottom:1rem;border:1px solid #f0f0f0;}
+.result-title{font-size:14px;font-weight:700;color:#111;margin-bottom:6px;}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.rg{text-align:center;background:#fff;padding:8px;border-radius:8px;border:1px solid #f0f0f0;}
+.rg-num{font-size:16px;font-weight:800;color:#FF9900;}
+.rg-label{font-size:11px;color:#777;}
+.status-pass{color:#2e7d32;font-weight:700;}
+.status-fail{color:#c62828;font-weight:700;}
+</style>
+{% endblock %}
+{% block content %}
+<div class="scan-page">
+  <div class="scan-title">Scan ASINs</div>
+  <div class="scan-sub">Enter Amazon ASINs to scan for profitable leads. The tool will automatically find source prices and calculate profit.</div>
+  <div class="scan-card">
+    <label class="form-label">Amazon ASINs</label>
+    <div class="form-hint">Enter one ASIN per line (e.g. B06Y66P49Z)</div>
+    <textarea id="asins" placeholder="B06Y66P49Z&#10;B01MRIY95Z&#10;B0GDVZHSF7"></textarea>
+    <button class="btn-scan" onclick="startScan()">🔍 Start Scan</button>
+  </div>
+  <div class="results" id="results"></div>
+</div>
+<script>
+function startScan(){
+  const asins = document.getElementById('asins').value.trim().split('\n').filter(a=>a.trim());
+  if(!asins.length) return alert('Please enter at least one ASIN');
+  const btn = document.querySelector('.btn-scan');
+  btn.textContent = '⏳ Scanning... please wait';
+  btn.disabled = true;
+  document.getElementById('results').innerHTML = '<p style="color:#777;text-align:center;padding:1rem;">Scanning '+asins.length+' ASIN(s)... This may take a few minutes.</p>';
+  fetch('/api/scan',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({asins:asins.map(a=>({asin:a.trim(),source_price:0,store:'Auto',source_url:''}))})
+  }).then(r=>r.json()).then(data=>{
+    btn.textContent = '🔍 Start Scan';
+    btn.disabled = false;
+    displayResults(data);
+  }).catch(e=>{
+    btn.textContent = '🔍 Start Scan';
+    btn.disabled = false;
+    document.getElementById('results').innerHTML = '<p style="color:#c62828;">Error: '+e.message+'</p>';
+  });
+}
+function displayResults(data){
+  const leads = data.leads || [];
+  const scanned = data.scanned || 0;
+  let html = '<h3 style="font-size:16px;font-weight:700;margin-bottom:1rem;">Results: '+leads.length+' qualifying leads from '+scanned+' scanned</h3>';
+  if(leads.length === 0){
+    html += '<div style="text-align:center;padding:2rem;color:#777;background:#f8f8f8;border-radius:12px;">No qualifying leads found. Try different ASINs!</div>';
+  } else {
+    leads.forEach(lead=>{
+      html += `<div class="result-item">
+        <div class="result-title">${lead.title}</div>
+        <div style="font-size:12px;color:#999;margin-bottom:10px;">${lead.asin} — ${lead.store}</div>
+        <div class="result-grid">
+          <div class="rg"><div class="rg-num">$${lead.net_profit}</div><div class="rg-label">Net Profit</div></div>
+          <div class="rg"><div class="rg-num">${lead.roi}%</div><div class="rg-label">ROI</div></div>
+          <div class="rg"><div class="rg-num">${lead.safety_score}%</div><div class="rg-label">Safety</div></div>
+        </div>
+        <div style="margin-top:10px;font-size:12px;">
+          <a href="${lead.amazon_url}" target="_blank" style="color:#0073bb;margin-right:12px;">Amazon ↗</a>
+          <a href="${lead.source_url}" target="_blank" style="color:#2e7d32;">Source: ${lead.store} ↗</a>
+        </div>
+      </div>`;
+    });
+  }
+  document.getElementById('results').innerHTML = html;
+}
+</script>
+{% endblock %}
