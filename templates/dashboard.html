@@ -3,198 +3,320 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard — ArbitrageAI Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<title>ArbitrageAI Pro - Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'DM Sans',sans-serif;background:#0a0a0a;color:#fff;}
-.sidebar{width:220px;background:#111;border-right:1px solid #222;height:100vh;position:fixed;top:0;left:0;padding:1.5rem 1rem;}
-.logo{display:flex;align-items:center;gap:8px;margin-bottom:2rem;}
-.logo-box{width:30px;height:30px;background:#FF9900;border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#111;}
-.logo-name{font-size:15px;font-weight:600;}
-.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;font-size:14px;color:#666;margin-bottom:4px;text-decoration:none;}
-.nav-item:hover,.nav-item.active{background:#1a1a1a;color:#fff;}
-.nav-item.active{color:#FF9900;}
-.main{margin-left:220px;padding:2rem;}
-.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;}
-.topbar h1{font-size:22px;font-weight:600;}
-.btn-scan{padding:10px 20px;background:#FF9900;color:#111;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:2rem;}
-.mc{background:#111;border:1px solid #222;border-radius:10px;padding:1.25rem;}
-.ml{font-size:12px;color:#666;margin-bottom:6px;}
-.mv{font-size:24px;font-weight:600;}
-.ms{font-size:11px;color:#444;margin-top:3px;}
-.mv-green{color:#4caf50;}
-.table-wrap{background:#111;border:1px solid #222;border-radius:10px;overflow:auto;}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:900px;}
-thead{background:#161616;}
-th{padding:11px 14px;text-align:left;font-weight:500;font-size:12px;color:#666;border-bottom:1px solid #222;}
-td{padding:11px 14px;border-bottom:1px solid #1a1a1a;color:#ccc;}
-tr:last-child td{border-bottom:none;}
-tr:hover td{background:#0f0f0f;}
-.roi-high{background:#1a2a1a;color:#4caf50;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;}
-.roi-med{background:#2a2a1a;color:#FF9900;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600;}
-.status-p{background:#1a1a2a;color:#64b5f6;padding:2px 8px;border-radius:20px;font-size:11px;cursor:pointer;}
-.status-a{background:#1a2a1a;color:#4caf50;padding:2px 8px;border-radius:20px;font-size:11px;cursor:pointer;}
-.status-s{background:#2a1a2a;color:#ce93d8;padding:2px 8px;border-radius:20px;font-size:11px;cursor:pointer;}
-.status-r{background:#2a1a1a;color:#ef9a9a;padding:2px 8px;border-radius:20px;font-size:11px;cursor:pointer;}
-.amz-link{color:#FF9900;font-size:11px;text-decoration:none;border:1px solid #2a1a00;border-radius:4px;padding:2px 6px;}
-.src-link{color:#4caf50;font-size:11px;text-decoration:none;border:1px solid #1a2a1a;border-radius:4px;padding:2px 6px;}
-.safety-bar{height:5px;border-radius:3px;background:#222;width:60px;display:inline-block;vertical-align:middle;}
-.safety-fill{height:5px;border-radius:3px;}
-.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:1rem;align-items:center;}
-select{padding:7px 10px;background:#161616;border:1px solid #333;border-radius:8px;color:#fff;font-size:13px;cursor:pointer;}
-.scan-modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:100;align-items:center;justify-content:center;}
-.scan-modal.open{display:flex;}
-.modal-card{background:#111;border:1px solid #333;border-radius:16px;padding:2rem;width:500px;}
-.modal-card h3{font-size:18px;font-weight:600;margin-bottom:1rem;}
-textarea{width:100%;background:#161616;border:1px solid #333;border-radius:8px;color:#fff;padding:12px;font-size:13px;font-family:'DM Sans',sans-serif;height:120px;resize:none;}
-.modal-btns{display:flex;gap:10px;margin-top:1rem;}
-.btn-cancel{padding:10px 20px;background:transparent;border:1px solid #333;border-radius:8px;color:#fff;cursor:pointer;font-size:14px;}
-.btn-go{padding:10px 20px;background:#FF9900;border:none;border-radius:8px;color:#111;cursor:pointer;font-size:14px;font-weight:600;}
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --border: #1e1e1e;
+    --accent: #f5a623;
+    --accent2: #ff6b35;
+    --text: #f0f0f0;
+    --muted: #666;
+    --green: #22c55e;
+    --red: #ef4444;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; display: flex; }
+
+  /* Sidebar */
+  .sidebar {
+    width: 220px; min-height: 100vh; background: var(--surface);
+    border-right: 1px solid var(--border); padding: 24px 0; display: flex; flex-direction: column;
+    position: fixed; top: 0; left: 0; height: 100vh;
+  }
+  .logo { padding: 0 20px 24px; border-bottom: 1px solid var(--border); }
+  .logo-icon { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; color: #000; font-size: 14px; margin-bottom: 8px; }
+  .logo-text { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
+  .logo-sub { font-size: 11px; color: var(--muted); }
+  .nav { padding: 20px 12px; flex: 1; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; color: var(--muted); margin-bottom: 4px; transition: all 0.2s; text-decoration: none; }
+  .nav-item:hover, .nav-item.active { background: rgba(245,166,35,0.1); color: var(--accent); }
+  .nav-item svg { width: 16px; height: 16px; }
+  .sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); font-size: 12px; color: var(--muted); }
+
+  /* Main */
+  .main { margin-left: 220px; flex: 1; padding: 32px; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+  .page-title { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; }
+  .user-badge { display: flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border); padding: 8px 14px; border-radius: 100px; font-size: 13px; }
+  .avatar { width: 28px; height: 28px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #000; }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+  .stat-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-value { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; }
+  .stat-value.green { color: var(--green); }
+  .stat-value.accent { color: var(--accent); }
+  .stat-change { font-size: 11px; color: var(--green); margin-top: 4px; }
+
+  /* Filter Bar */
+  .filter-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+  .filter-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 16px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .filters { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+  .filter-group { display: flex; flex-direction: column; gap: 6px; }
+  .filter-group label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .filter-group input, .filter-group select {
+    background: var(--bg); border: 1px solid var(--border); color: var(--text);
+    padding: 9px 12px; border-radius: 8px; font-size: 13px; font-family: 'DM Sans', sans-serif;
+    outline: none; width: 140px; transition: border 0.2s;
+  }
+  .filter-group input:focus, .filter-group select:focus { border-color: var(--accent); }
+  .filter-group select option { background: var(--surface); }
+
+  .find-btn {
+    background: var(--accent); color: #000; border: none; padding: 10px 28px;
+    border-radius: 8px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px;
+    cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; white-space: nowrap;
+  }
+  .find-btn:hover { background: #ffb940; transform: translateY(-1px); }
+  .find-btn:active { transform: translateY(0); }
+  .find-btn.loading { opacity: 0.7; pointer-events: none; }
+
+  /* Results Table */
+  .results-section { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .results-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .results-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
+  .results-count { font-size: 12px; color: var(--muted); background: var(--bg); padding: 4px 10px; border-radius: 100px; border: 1px solid var(--border); }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { padding: 12px 16px; text-align: left; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); font-weight: 500; }
+  td { padding: 14px 16px; font-size: 13px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .product-cell { display: flex; flex-direction: column; gap: 2px; }
+  .product-name { font-weight: 500; color: var(--text); }
+  .product-asin { font-size: 11px; color: var(--muted); }
+  .profit { color: var(--green); font-weight: 600; font-family: 'Syne', sans-serif; }
+  .roi-badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .roi-high { background: rgba(34,197,94,0.15); color: var(--green); }
+  .roi-med { background: rgba(245,166,35,0.15); color: var(--accent); }
+  .status-badge { display: inline-block; padding: 4px 10px; border-radius: 100px; font-size: 11px; font-weight: 500; }
+  .status-pending { background: rgba(245,166,35,0.1); color: var(--accent); }
+  .status-approved { background: rgba(34,197,94,0.1); color: var(--green); }
+
+  .action-btn { background: transparent; border: 1px solid var(--border); color: var(--text); padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+  .action-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Empty state */
+  .empty-state { padding: 60px; text-align: center; }
+  .empty-icon { font-size: 48px; margin-bottom: 16px; }
+  .empty-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .empty-sub { color: var(--muted); font-size: 14px; }
+
+  /* Loading spinner */
+  .spinner { width: 16px; height: 16px; border: 2px solid rgba(0,0,0,0.3); border-top: 2px solid #000; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Scanning animation */
+  .scanning-state { padding: 60px; text-align: center; }
+  .scan-ring { width: 60px; height: 60px; border: 3px solid var(--border); border-top: 3px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+  .scan-text { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 8px; color: var(--accent); }
+  .scan-sub { color: var(--muted); font-size: 13px; }
 </style>
 </head>
 <body>
 
-<div class="sidebar">
+<aside class="sidebar">
   <div class="logo">
-    <div class="logo-box">OA</div>
-    <div class="logo-name">ArbitrageAI Pro</div>
+    <div class="logo-icon">OA</div>
+    <div class="logo-text">ArbitrageAI Pro</div>
+    <div class="logo-sub">Amazon OA Sourcing</div>
   </div>
-  <a class="nav-item active" href="/dashboard">📊 Dashboard</a>
-  <a class="nav-item" href="#">🔍 Scan ASINs</a>
-  <a class="nav-item" href="#">📋 All Leads</a>
-  <a class="nav-item" href="#">✅ Approved</a>
-  <a class="nav-item" href="#">📤 Sent to Client</a>
-  <a class="nav-item" href="#">⚙️ Settings</a>
-  <a class="nav-item" href="/" style="position:absolute;bottom:1.5rem;left:1rem;right:1rem;">🚪 Logout</a>
-</div>
+  <nav class="nav">
+    <a href="/dashboard" class="nav-item active">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      Dashboard
+    </a>
+    <a href="#" class="nav-item">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+      All Leads
+    </a>
+    <a href="#" class="nav-item">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+      Approved
+    </a>
+    <a href="#" class="nav-item">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+      Sent to Client
+    </a>
+    <a href="#" class="nav-item">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      Settings
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <a href="/logout" style="color: var(--muted); text-decoration: none; font-size: 12px;">⬅ Logout</a>
+  </div>
+</aside>
 
-<div class="main">
+<main class="main">
   <div class="topbar">
-    <div>
-      <h1>Dashboard</h1>
-      <div style="font-size:13px;color:#444;margin-top:2px;">Welcome back, Zaman</div>
-    </div>
-    <button class="btn-scan" onclick="document.querySelector('.scan-modal').classList.add('open')">+ Scan New ASINs</button>
-  </div>
-
-  <div class="metrics">
-    <div class="mc"><div class="ml">Total Leads Today</div><div class="mv">12</div><div class="ms">Last scan: 2 hours ago</div></div>
-    <div class="mc"><div class="ml">Profit Potential</div><div class="mv mv-green">$186.40</div><div class="ms">Combined per unit</div></div>
-    <div class="mc"><div class="ml">Average ROI</div><div class="mv">78%</div><div class="ms">Min threshold: 25%</div></div>
-    <div class="mc"><div class="ml">Approved Leads</div><div class="mv">4</div><div class="ms">Ready to send</div></div>
-  </div>
-
-  <div class="filters">
-    <select><option>All Categories</option><option>Grocery</option><option>Pet Supply</option><option>Automotive</option><option>Tools</option><option>Kitchen</option><option>Toys</option></select>
-    <select><option>All ROI</option><option>25%+</option><option>50%+</option><option>75%+</option></select>
-    <select><option>All Status</option><option>Pending</option><option>Approved</option><option>Sent</option><option>Rejected</option></select>
-    <select><option>Hazmat: Any</option><option>No Hazmat Only</option></select>
-  </div>
-
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr>
-          <th>Product</th>
-          <th>Amazon</th>
-          <th>Source</th>
-          <th>Source $</th>
-          <th>Amazon $</th>
-          <th>Profit</th>
-          <th>ROI</th>
-          <th>FBA</th>
-          <th>BSR</th>
-          <th>Safety</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="tbody">
-        <tr>
-          <td><div style="font-weight:500;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Equal Exchange Dark Hot Chocolate</div><div style="font-size:10px;color:#444;">B06Y66P49Z • Grocery</div></td>
-          <td><a class="amz-link" href="https://amazon.com/dp/B06Y66P49Z" target="_blank">Amazon ↗</a></td>
-          <td><a class="src-link" href="#" target="_blank">Target ↗</a></td>
-          <td>$8.99</td>
-          <td>$27.99</td>
-          <td style="color:#4caf50;font-weight:600;">$11.80</td>
-          <td><span class="roi-high">131%</span></td>
-          <td>6</td>
-          <td>59,864</td>
-          <td><div class="safety-bar"><div class="safety-fill" style="background:#4caf50;width:91%"></div></div> 91%</td>
-          <td><span class="status-p" onclick="cycleStatus(this)">Pending</span></td>
-        </tr>
-        <tr>
-          <td><div style="font-weight:500;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Hill's Science Diet Cat Food Adult</div><div style="font-size:10px;color:#444;">B001GS7SXK • Pet Supply</div></td>
-          <td><a class="amz-link" href="https://amazon.com/dp/B001GS7SXK" target="_blank">Amazon ↗</a></td>
-          <td><a class="src-link" href="#" target="_blank">Chewy ↗</a></td>
-          <td>$41.98</td>
-          <td>$82.00</td>
-          <td style="color:#4caf50;font-weight:600;">$23.16</td>
-          <td><span class="roi-high">55%</span></td>
-          <td>5</td>
-          <td>512</td>
-          <td><div class="safety-bar"><div class="safety-fill" style="background:#4caf50;width:93%"></div></div> 93%</td>
-          <td><span class="status-a" onclick="cycleStatus(this)">Approved</span></td>
-        </tr>
-        <tr>
-          <td><div style="font-weight:500;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Armor All Interior Cleaner Spray</div><div style="font-size:10px;color:#444;">B07X27QN7Y • Automotive</div></td>
-          <td><a class="amz-link" href="https://amazon.com/dp/B07X27QN7Y" target="_blank">Amazon ↗</a></td>
-          <td><a class="src-link" href="#" target="_blank">Walmart ↗</a></td>
-          <td>$5.47</td>
-          <td>$14.88</td>
-          <td style="color:#4caf50;font-weight:600;">$5.42</td>
-          <td><span class="roi-high">99%</span></td>
-          <td>6</td>
-          <td>920</td>
-          <td><div class="safety-bar"><div class="safety-fill" style="background:#FF9900;width:82%"></div></div> 82%</td>
-          <td><span class="status-s" onclick="cycleStatus(this)">Sent</span></td>
-        </tr>
-        <tr>
-          <td><div style="font-weight:500;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">KONG Classic Stuffable Dog Toy</div><div style="font-size:10px;color:#444;">B0002AR0I8 • Pet Supply</div></td>
-          <td><a class="amz-link" href="https://amazon.com/dp/B0002AR0I8" target="_blank">Amazon ↗</a></td>
-          <td><a class="src-link" href="#" target="_blank">Sam's Club ↗</a></td>
-          <td>$8.48</td>
-          <td>$20.99</td>
-          <td style="color:#4caf50;font-weight:600;">$7.64</td>
-          <td><span class="roi-high">90%</span></td>
-          <td>4</td>
-          <td>1,820</td>
-          <td><div class="safety-bar"><div class="safety-fill" style="background:#4caf50;width:92%"></div></div> 92%</td>
-          <td><span class="status-p" onclick="cycleStatus(this)">Pending</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- SCAN MODAL -->
-<div class="scan-modal">
-  <div class="modal-card">
-    <h3>Scan New ASINs</h3>
-    <p style="font-size:13px;color:#666;margin-bottom:1rem;">Paste ASINs below (one per line). Tool will find source prices and calculate profit automatically.</p>
-    <textarea placeholder="B06Y66P49Z&#10;B01MRIY95Z&#10;B0GDVZHSF7"></textarea>
-    <div class="modal-btns">
-      <button class="btn-cancel" onclick="document.querySelector('.scan-modal').classList.remove('open')">Cancel</button>
-      <button class="btn-go" onclick="startScan()">Start Scan →</button>
+    <div class="page-title">Dashboard</div>
+    <div class="user-badge">
+      <div class="avatar">Z</div>
+      <span>Zaman</span>
     </div>
   </div>
-</div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-label">Leads Found Today</div>
+      <div class="stat-value accent" id="stat-leads">0</div>
+      <div class="stat-change">↑ Click Find Leads to scan</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Avg Profit</div>
+      <div class="stat-value green" id="stat-profit">$0</div>
+      <div class="stat-change">Per product</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Avg ROI</div>
+      <div class="stat-value accent" id="stat-roi">0%</div>
+      <div class="stat-change">Across all leads</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Approved Leads</div>
+      <div class="stat-value" id="stat-approved">0</div>
+      <div class="stat-change">Ready to send</div>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <div class="filter-title">Find Leads</div>
+    <div class="filters">
+      <div class="filter-group">
+        <label>Min Profit ($)</label>
+        <input type="number" id="minProfit" placeholder="e.g. 5" value="5">
+      </div>
+      <div class="filter-group">
+        <label>Min ROI (%)</label>
+        <input type="number" id="minROI" placeholder="e.g. 30" value="30">
+      </div>
+      <div class="filter-group">
+        <label>Category</label>
+        <select id="category">
+          <option value="all">All Categories</option>
+          <option value="grocery">Grocery & Food</option>
+          <option value="health">Health & Beauty</option>
+          <option value="pets">Pet Supplies</option>
+          <option value="home">Home & Kitchen</option>
+          <option value="toys">Toys & Games</option>
+          <option value="sports">Sports & Outdoors</option>
+          <option value="office">Office Products</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Max Competition</label>
+        <select id="maxComp">
+          <option value="any">Any</option>
+          <option value="low">Low (1-5 sellers)</option>
+          <option value="medium">Medium (6-15 sellers)</option>
+          <option value="high">High (15+ sellers)</option>
+        </select>
+      </div>
+      <button class="find-btn" id="findBtn" onclick="findLeads()">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        Find Leads
+      </button>
+    </div>
+  </div>
+
+  <div class="results-section">
+    <div class="results-header">
+      <div class="results-title">Results</div>
+      <div class="results-count" id="results-count">0 leads</div>
+    </div>
+    <div id="results-body">
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <div class="empty-title">Ready to Find Leads</div>
+        <div class="empty-sub">Set your filters above and click "Find Leads" to start scanning Google Shopping</div>
+      </div>
+    </div>
+  </div>
+</main>
 
 <script>
-const statuses = ['Pending','Approved','Sent','Rejected'];
-const statusClasses = ['status-p','status-a','status-s','status-r'];
-function cycleStatus(el) {
-  const cur = statuses.indexOf(el.textContent);
-  const next = (cur + 1) % statuses.length;
-  el.textContent = statuses[next];
-  el.className = statusClasses[next];
+const sampleProducts = [
+  { name: "Hill's Science Diet Cat Food 7lb", asin: "B08XY12345", source: "Walmart", sourcePx: 18.99, amazon: 34.99, profit: 9.82, roi: 51, bsr: 312, sellers: 4, category: "pets" },
+  { name: "Equal Exchange Dark Chocolate 3pk", asin: "B07TK98231", source: "Target", sourcePx: 9.49, amazon: 21.99, profit: 8.78, roi: 92, bsr: 1204, sellers: 2, category: "grocery" },
+  { name: "Armor All Interior Cleaner 2pk", asin: "B09MZ45678", source: "Home Depot", sourcePx: 11.97, amazon: 24.49, profit: 7.44, roi: 62, bsr: 890, sellers: 7, category: "home" },
+  { name: "KONG Classic Stuffable Dog Toy L", asin: "B000CQJL5K", source: "PetSmart", sourcePx: 12.99, amazon: 26.99, profit: 9.12, roi: 70, bsr: 520, sellers: 5, category: "pets" },
+  { name: "Burt's Bees Lip Balm 4pk Original", asin: "B01N5G3NLK", source: "CVS", sourcePx: 7.99, amazon: 18.49, profit: 6.88, roi: 86, bsr: 678, sellers: 3, category: "health" },
+  { name: "Crayola Colored Pencils 50ct", asin: "B00000J1ER", source: "Walmart", sourcePx: 8.49, amazon: 19.99, profit: 7.24, roi: 85, bsr: 445, sellers: 6, category: "toys" },
+  { name: "Emergen-C Vitamin C 60pk", asin: "B07BHN3P9K", source: "Costco", sourcePx: 14.99, amazon: 31.99, profit: 11.12, roi: 74, bsr: 234, sellers: 8, category: "health" },
+  { name: "Purina Pro Plan Adult Dog Food", asin: "B098K12345", source: "Chewy", sourcePx: 22.49, amazon: 48.99, profit: 18.42, roi: 82, bsr: 189, sellers: 3, category: "pets" },
+];
+
+function findLeads() {
+  const btn = document.getElementById('findBtn');
+  const body = document.getElementById('results-body');
+  const minProfit = parseFloat(document.getElementById('minProfit').value) || 0;
+  const minROI = parseFloat(document.getElementById('minROI').value) || 0;
+  const category = document.getElementById('category').value;
+  const maxComp = document.getElementById('maxComp').value;
+
+  btn.classList.add('loading');
+  btn.innerHTML = '<div class="spinner"></div> Scanning...';
+
+  body.innerHTML = `<div class="scanning-state"><div class="scan-ring"></div><div class="scan-text">Scanning Google Shopping...</div><div class="scan-sub">Finding profitable leads matching your filters</div></div>`;
+
+  setTimeout(() => {
+    let results = sampleProducts.filter(p => {
+      if (p.profit < minProfit) return false;
+      if (p.roi < minROI) return false;
+      if (category !== 'all' && p.category !== category) return false;
+      if (maxComp === 'low' && p.sellers > 5) return false;
+      if (maxComp === 'medium' && (p.sellers < 6 || p.sellers > 15)) return false;
+      if (maxComp === 'high' && p.sellers <= 15) return false;
+      return true;
+    });
+
+    document.getElementById('results-count').textContent = results.length + ' leads';
+    document.getElementById('stat-leads').textContent = results.length;
+
+    if (results.length === 0) {
+      body.innerHTML = `<div class="empty-state"><div class="empty-icon">😔</div><div class="empty-title">No leads found</div><div class="empty-sub">Try lowering your minimum profit or ROI filters</div></div>`;
+    } else {
+      const avgProfit = (results.reduce((a,b) => a + b.profit, 0) / results.length).toFixed(2);
+      const avgROI = Math.round(results.reduce((a,b) => a + b.roi, 0) / results.length);
+      document.getElementById('stat-profit').textContent = '$' + avgProfit;
+      document.getElementById('stat-roi').textContent = avgROI + '%';
+
+      body.innerHTML = `<table>
+        <thead><tr>
+          <th>Product</th><th>Source Price</th><th>Amazon Price</th>
+          <th>Profit</th><th>ROI</th><th>BSR</th><th>Sellers</th><th>Action</th>
+        </tr></thead>
+        <tbody>${results.map(p => `<tr>
+          <td><div class="product-cell"><span class="product-name">${p.name}</span><span class="product-asin">${p.asin} • ${p.source}</span></div></td>
+          <td>$${p.sourcePx.toFixed(2)}</td>
+          <td>$${p.amazon.toFixed(2)}</td>
+          <td class="profit">+$${p.profit.toFixed(2)}</td>
+          <td><span class="roi-badge ${p.roi >= 70 ? 'roi-high' : 'roi-med'}">${p.roi}%</span></td>
+          <td>${p.bsr.toLocaleString()}</td>
+          <td>${p.sellers}</td>
+          <td><button class="action-btn" onclick="approve(this)">Approve</button></td>
+        </tr>`).join('')}</tbody>
+      </table>`;
+    }
+
+    btn.classList.remove('loading');
+    btn.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg> Find Leads';
+  }, 2500);
 }
-function startScan() {
-  const asins = document.querySelector('textarea').value.trim();
-  if (!asins) { alert('Please enter at least one ASIN!'); return; }
-  document.querySelector('.scan-modal').classList.remove('open');
-  alert('Scan started! Results will appear in your dashboard in a few minutes.');
+
+function approve(btn) {
+  btn.textContent = '✓ Approved';
+  btn.style.borderColor = 'var(--green)';
+  btn.style.color = 'var(--green)';
+  btn.disabled = true;
+  const current = parseInt(document.getElementById('stat-approved').textContent) || 0;
+  document.getElementById('stat-approved').textContent = current + 1;
 }
 </script>
 </body>
