@@ -243,13 +243,17 @@
 <script>
 const sampleProducts = [
   { name: "Hill's Science Diet Cat Food 7lb", asin: "B08XY12345", source: "Walmart", sourcePx: 18.99, amazon: 34.99, profit: 9.82, roi: 51, bsr: 312, sellers: 4, category: "pets" },
+  { name: "KONG Classic Stuffable Dog Toy L", asin: "B000CQJL5K", source: "PetSmart", sourcePx: 12.99, amazon: 26.99, profit: 9.12, roi: 70, bsr: 520, sellers: 5, category: "pets" },
+  { name: "Purina Pro Plan Adult Dog Food 6lb", asin: "B098K12345", source: "Chewy", sourcePx: 22.49, amazon: 48.99, profit: 18.42, roi: 82, bsr: 189, sellers: 3, category: "pets" },
+  { name: "Purina ONE SmartBlend Dog Food", asin: "B001IHQ2FY", source: "Walmart", sourcePx: 19.99, amazon: 42.49, profit: 14.62, roi: 73, bsr: 278, sellers: 18, category: "pets" },
+  { name: "Blue Buffalo Life Protection Cat", asin: "B0012Y3LQI", source: "PetSmart", sourcePx: 24.99, amazon: 54.99, profit: 20.12, roi: 80, bsr: 156, sellers: 22, category: "pets" },
+  { name: "Fancy Feast Gravy Lovers 24pk", asin: "B07XYZAB12", source: "Target", sourcePx: 14.49, amazon: 29.99, profit: 9.62, roi: 66, bsr: 412, sellers: 16, category: "pets" },
+  { name: "Greenies Dental Dog Treats Large", asin: "B00069IHR6", source: "Costco", sourcePx: 16.99, amazon: 36.99, profit: 12.12, roi: 71, bsr: 334, sellers: 19, category: "pets" },
   { name: "Equal Exchange Dark Chocolate 3pk", asin: "B07TK98231", source: "Target", sourcePx: 9.49, amazon: 21.99, profit: 8.78, roi: 92, bsr: 1204, sellers: 2, category: "grocery" },
   { name: "Armor All Interior Cleaner 2pk", asin: "B09MZ45678", source: "Home Depot", sourcePx: 11.97, amazon: 24.49, profit: 7.44, roi: 62, bsr: 890, sellers: 7, category: "home" },
-  { name: "KONG Classic Stuffable Dog Toy L", asin: "B000CQJL5K", source: "PetSmart", sourcePx: 12.99, amazon: 26.99, profit: 9.12, roi: 70, bsr: 520, sellers: 5, category: "pets" },
   { name: "Burt's Bees Lip Balm 4pk Original", asin: "B01N5G3NLK", source: "CVS", sourcePx: 7.99, amazon: 18.49, profit: 6.88, roi: 86, bsr: 678, sellers: 3, category: "health" },
   { name: "Crayola Colored Pencils 50ct", asin: "B00000J1ER", source: "Walmart", sourcePx: 8.49, amazon: 19.99, profit: 7.24, roi: 85, bsr: 445, sellers: 6, category: "toys" },
   { name: "Emergen-C Vitamin C 60pk", asin: "B07BHN3P9K", source: "Costco", sourcePx: 14.99, amazon: 31.99, profit: 11.12, roi: 74, bsr: 234, sellers: 8, category: "health" },
-  { name: "Purina Pro Plan Adult Dog Food", asin: "B098K12345", source: "Chewy", sourcePx: 22.49, amazon: 48.99, profit: 18.42, roi: 82, bsr: 189, sellers: 3, category: "pets" },
 ];
 
 function findLeads() {
@@ -272,7 +276,7 @@ function findLeads() {
       if (category !== 'all' && p.category !== category) return false;
       if (maxComp === 'low' && p.sellers > 5) return false;
       if (maxComp === 'medium' && (p.sellers < 6 || p.sellers > 15)) return false;
-      if (maxComp === 'high' && p.sellers <= 15) return false;
+      if (maxComp === 'high' && p.sellers < 15) return false;
       return true;
     });
 
